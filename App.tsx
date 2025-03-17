@@ -5,6 +5,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/inter";
 import Home from "@screens/index";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,5 +13,15 @@ export default function App() {
     Inter_700Bold,
   });
 
-  return <>{fontsLoaded ? <Home /> : <Loading />}</>;
+  return (
+    <>
+      {fontsLoaded ? <Home /> : <Loading />}
+
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
+    </>
+  );
 }
