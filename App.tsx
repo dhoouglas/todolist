@@ -5,7 +5,6 @@ import {
   useFonts,
 } from "@expo-google-fonts/inter";
 import Home from "@screens/index";
-import { View } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -13,7 +12,5 @@ export default function App() {
     Inter_700Bold,
   });
 
-  return (
-    <View style={{ flex: 1 }}>{fontsLoaded ? <Home /> : <Loading />}</View>
-  );
+  return <>{fontsLoaded ? <Home /> : <Loading />}</>;
 }

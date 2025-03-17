@@ -1,10 +1,17 @@
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import { styles } from "./styles";
+import Header from "@components/Header";
 
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
+      <Header />
+
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
     </View>
   );
 };
