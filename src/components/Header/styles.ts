@@ -25,11 +25,13 @@ export const styles = StyleSheet.create({
     width: "75%",
     backgroundColor: theme.colors.base.gray500,
     borderRadius: 5,
-    borderWidth: 1,
     padding: 16,
+    color: theme.colors.base.gray100,
     marginRight: 4,
     fontSize: theme.font_size.md,
+    fontFamily: theme.font_family.regular,
     borderColor: theme.colors.base.gray700,
+    borderWidth: 1,
   },
 
   button: {

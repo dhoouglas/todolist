@@ -5,6 +5,7 @@ import Task from "@components/Task";
 import { useState } from "react";
 import { TaskDTO } from "@dtos/TaskDTO";
 import Empty from "@components/Empty";
+import { uuid } from "@utils/uuid";
 
 const Home = () => {
   const [tasks, setTasks] = useState<TaskDTO[]>([
@@ -13,9 +14,24 @@ const Home = () => {
     // { id: "3", isCompleted: false, title: "Estudar React Native" },
   ]);
 
+  const [newTask, setNewTask] = useState("");
+
+  function handleAddTask() {
+    if (newTask !== "" && newTask.length >= 5) {
+      setTasks((tasks) => [
+        ...tasks,
+        { id: uuid(), isCompleted: false, title: newTask.trim() },
+      ]);
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Header />
+      <Header
+        task={newTask}
+        onChangeText={setNewTask}
+        onPress={handleAddTask}
+      />
 
       <View style={styles.tasksContainer}>
         <View style={styles.info}>
