@@ -1,8 +1,8 @@
-import { Alert, FlatList, Text, View } from "react-native";
+import { Alert, FlatList, Text, TextInput, View } from "react-native";
 import { styles } from "./styles";
 import Header from "@components/Header";
 import Task from "@components/Task";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { TaskDTO } from "@dtos/TaskDTO";
 import Empty from "@components/Empty";
 import { uuid } from "@utils/uuid";
@@ -15,13 +15,18 @@ const Home = () => {
   ]);
 
   const [newTask, setNewTask] = useState("");
+  const newTaskInputRef = useRef<TextInput>(null);
 
-  function handleAddTask() {
+  function handleTaskAdd() {
     if (newTask !== "" && newTask.length >= 5) {
       setTasks((tasks) => [
         ...tasks,
         { id: uuid(), isCompleted: false, title: newTask.trim() },
       ]);
+
+      setNewTask("");
+
+      newTaskInputRef.current?.blur;
     }
   }
 
@@ -50,12 +55,18 @@ const Home = () => {
     ]);
   }
 
+  const totalTasksCreated = tasks.length;
+  const totalTaskCompleted = tasks.filter(
+    ({ isCompleted }) => isCompleted
+  ).length;
+
   return (
     <View style={styles.container}>
       <Header
+        inputRef={newTaskInputRef}
         task={newTask}
         onChangeText={setNewTask}
-        onPress={handleAddTask}
+        onPress={handleTaskAdd}
       />
 
       <View style={styles.tasksContainer}>
@@ -63,14 +74,14 @@ const Home = () => {
           <View style={styles.row}>
             <Text style={styles.tasksCreated}>Criadas</Text>
             <View style={styles.counterContainer}>
-              <Text style={styles.counterText}>0</Text>
+              <Text style={styles.counterText}>{totalTasksCreated}</Text>
             </View>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.tasksDone}>Concluídas</Text>
             <View style={styles.counterContainer}>
-              <Text style={styles.counterText}>0</Text>
+              <Text style={styles.counterText}>{totalTaskCompleted}</Text>
             </View>
           </View>
         </View>
