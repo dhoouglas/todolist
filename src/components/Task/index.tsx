@@ -3,23 +3,43 @@ import { TouchableOpacity, View, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { theme } from "../../theme";
 import { styles } from "./styles";
+import { TaskDTO } from "@dtos/TaskDTO";
 
-const Task = () => {
+type TaskProps = TaskDTO & {
+  onTaskDone: (id: string) => void;
+  onTaskDeleted: (id: string) => void;
+};
+
+const Task = ({
+  id,
+  title,
+  isCompleted,
+  onTaskDone,
+  onTaskDeleted,
+}: TaskProps) => {
   return (
     <View style={styles.taskContainer}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onTaskDone(id)}>
         <MaterialCommunityIcons
-          name="checkbox-marked-circle-outline"
+          name={
+            isCompleted
+              ? "checkbox-marked-circle-outline"
+              : "checkbox-blank-circle-outline"
+          }
           size={22}
-          color={theme.colors.brand.purple}
+          color={
+            isCompleted ? theme.colors.brand.purple : theme.colors.brand.blue
+          }
         />
       </TouchableOpacity>
 
       <View style={styles.textContainer}>
-        <Text style={styles.textDone}>Testando react</Text>
+        <Text style={isCompleted ? styles.textDone : styles.textCreated}>
+          {title}
+        </Text>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onTaskDeleted(id)}>
         <MaterialCommunityIcons
           name="trash-can-outline"
           size={20}

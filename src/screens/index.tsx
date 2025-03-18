@@ -1,4 +1,4 @@
-import { FlatList, Text, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { styles } from "./styles";
 import Header from "@components/Header";
 import Task from "@components/Task";
@@ -23,6 +23,31 @@ const Home = () => {
         { id: uuid(), isCompleted: false, title: newTask.trim() },
       ]);
     }
+  }
+
+  function handleTaskDone(id: string) {
+    setTasks((task) =>
+      task.map((task) => {
+        task.id === id ? (task.isCompleted = !task.isCompleted) : null;
+        return task;
+      })
+    );
+  }
+
+  function handleTaskDeleted(id: string) {
+    Alert.alert("Excluir tarefa", "Deseja excluir essa tarefa?", [
+      {
+        text: "sim",
+        style: "default",
+        onPress: () =>
+          setTasks((task) => tasks.filter((task) => task.id !== id)),
+      },
+
+      {
+        text: "Não",
+        style: "cancel",
+      },
+    ]);
   }
 
   return (
@@ -52,8 +77,15 @@ const Home = () => {
 
         <FlatList
           data={tasks}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Task key={item.id} />}
+          keyExtractor={(tasks) => tasks.id}
+          renderItem={({ item }) => (
+            <Task
+              key={item.id}
+              onTaskDone={() => handleTaskDone(item.id)}
+              onTaskDeleted={() => handleTaskDeleted(item.id)}
+              {...item}
+            />
+          )}
           ListEmptyComponent={<Empty />}
         />
       </View>
